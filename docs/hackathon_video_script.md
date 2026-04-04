@@ -6,7 +6,7 @@
 *(Screen: The "Bloomberg Terminal" style Next.js UI on `localhost:3000`. Show the codebase IDE focused on `src/agent/graph.ts`)*
 
 **Voiceover:** 
-"Hello, I'm presenting DeFi Guardian—an Institutional Risk Engine. A major problem in autonomous trading is reliance on highly vulnerable static `.env` API keys. If the LLM goes rogue, it drains the wallet. 
+"Hello, I'm presenting TokenVault Guardian—an Institutional Risk Engine. A major problem in autonomous trading is reliance on highly vulnerable static `.env` API keys. If the LLM goes rogue, it drains the wallet. 
 To solve this, we decoupled our execution privileges by binding LangGraph.js to the Auth0 Token Vault. Notice our architecture has two explicit Human-in-the-Loop constraints: first, the Agent must securely negotiate an out-of-band CIBA mobile push, and second, our Graph uses `interruptBefore` to physically break state execution before signing Web3 intents."
 
 ### Scene 2: User Control & The Hardware Push (0:45 - 1:30)

@@ -90,7 +90,7 @@ export default function Home() {
             <Activity className="text-white" size={32} />
           </div>
           <div>
-            <h1 className="text-3xl font-extrabold tracking-tight text-white">DeFi Guardian</h1>
+            <h1 className="text-3xl font-extrabold tracking-tight text-white">TokenVault Guardian</h1>
             <p className="text-slate-400 font-medium">Institutional Risk Management Engine</p>
           </div>
         </header>

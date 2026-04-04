@@ -1,4 +1,4 @@
-# DeFi Guardian Agent (Auth0 Token Vault Integration)
+# TokenVault Guardian (Auth0 CIBA Integration)
 
 🚀 **Live Deployment:** [auth0-token-vault-guardian.vercel.app](https://auth0-token-vault-guardian.vercel.app/)
 
