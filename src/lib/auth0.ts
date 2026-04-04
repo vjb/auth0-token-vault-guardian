@@ -18,11 +18,11 @@ export const requestAsynchronousVaultConsent = auth0AI.withAsyncAuthorization({
   userID: process.env.AUTH0_DEMO_USER_ID || "auth0|65f1eb21b83d8e5f2...", 
 
   // The explicit message sent to Auth0 Guardian for the Human-in-the-loop review
-  bindingMessage: async ({ action, threshold }) =>
-    `DeFi Guardian Vault: Do you explicitly authorize the ${action} operation exceeding a ${threshold}% risk threshold?`,
+  bindingMessage: async () =>
+    `DeFi Guardian Vault: Do you explicitly authorize this high-value protocol operation?`,
   
   // The dynamic, tightly scoped permissions requested by the Agent
-  scopes: ["openid", "execute:liquidate", "read:portfolio"],
+  scopes: ["openid", "execute_transfer", "read:portfolio"],
   
   // The exact secure resource server audience
   audience: process.env.AUTH0_AUDIENCE || "https://api.risk-router-demo.com",
