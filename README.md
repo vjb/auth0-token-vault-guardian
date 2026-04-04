@@ -25,28 +25,6 @@ sequenceDiagram
     Web3-->>NextJS: Cryptographic Signature Return
 ```
 
-## Tested Output Validation
-
-To prove that the LangGraph thread mathematically blocks at the Auth0 boundary without mocking, we executed native unit tests verifying the CIBA suspension.
-
-```log
-=============================================
-🤖 [TEST SUITE] Auth0 Token Vault CIBA Hook
-=============================================
-
-🚀 [TEST] Initiating headless LangGraph agent...
-📉 [TEST] Sending simulated 25% portfolio drawdown payload...
-📊 [AGENT] Analyzing transaction intent...
-🔒 [AGENT] Initiating Auth0 Token Vault execution wrap...
-
-🔒 [AUTH0 SECURITY] Secure Breakpoint Successfully Hit!
-⚠️ [TEST] Agent thread successfully paused by Token Vault. CIBA PUSH SENT.
-
-=============================================
-🏁 [TEST SUITE] Complete
-=============================================
-```
-
 ## Hackathon Judging Criteria Alignment
 
 1. **Security Model**: The agent does not use static API keys. All execution sequences run through the Auth0 Asynchronous Authorization (CIBA) flow.
@@ -77,6 +55,4 @@ This architecture fundamentally proves that using the Auth0 Token Vault, autonom
 ```bash
 npm install
 npm run dev
-# Or to verify the CIBA interception natively:
-npx tsx --env-file=.env scripts/test_agent.ts
 ```

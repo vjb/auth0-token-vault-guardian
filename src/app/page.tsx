@@ -11,6 +11,8 @@ export default function Home() {
   const [signature, setSignature] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isSigning, setIsSigning] = useState(false);
+  const [resumeError, setResumeError] = useState<string | null>(null);
+  const [sessionId, setSessionId] = useState<string>("");
 
   // Triggers the true LangGraph executing on the server
   const handleMarketCrash = async () => {
@@ -19,26 +21,27 @@ export default function Home() {
     setIsLoading(true);
 
     try {
-      // This fetch securely connects to the Next.js API. 
-      // The API initiates LangGraph, which pauses execution to ping Auth0 CIBA.
-      // Once Auth0 explicitly confirms User Mobile Consent, the API yields `isPaused: true`.
+      const activeSession = `demo_${Date.now()}`;
+      setSessionId(activeSession);
+      
       const res = await fetch("/api/agent/trigger", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ portfolioDrop: 25.0 }),
+        body: JSON.stringify({ portfolioDrop: 25.0, threadId: activeSession }),
       });
       const data = await res.json();
       
-      if (data.isPaused) {
+      if (data.isPaused && data.authStatus === "APPROVED") {
         setAuthStatus("APPROVED");
       } else {
-        // Fallback for Hackathon Testing if CIBA environment lacks a native push device or throws 500
+        // Fallback or explicit Auth0 CIBA error/rejection
         setAuthStatus("DENIED");
-        console.error("Auth0 Token Vault hook failed. Native setup missing.");
+        console.error("Auth0 Token Vault hook returned DENIED or timed out.");
       }
-    } catch (e) {
+    } catch (e: any) {
       console.error(e);
       setAuthStatus("DENIED");
+      setResumeError("Trigger Fault: " + e.message);
     } finally {
       setIsLoading(false);
     }
@@ -52,14 +55,20 @@ export default function Home() {
       // the node engine to formally calculate the Viem Web3 signature.
       const res = await fetch("/api/agent/resume", {
         method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ threadId: sessionId }),
       });
       const data = await res.json();
       
       if (data.signature) {
         setSignature(data.signature);
+        setResumeError(null);
+      } else {
+        setResumeError(data.error || "Unknown server fault during signing");
       }
-    } catch (e) {
+    } catch (e: any) {
       console.error("Signature bridging failed:", e);
+      setResumeError(e.message || "Failed to reach backend");
     } finally {
       setIsSigning(false);
     }
@@ -133,6 +142,12 @@ export default function Home() {
                 >
                   {isSigning ? "Signing Payload..." : "Sign & Broadcast Intent"}
                 </button>
+              </div>
+            )}
+
+            {resumeError && (
+              <div className="bg-red-900/20 border border-red-800 p-4 rounded-xl mt-4">
+                <span className="text-red-400 font-mono text-sm break-words">Backend Fault: {resumeError}</span>
               </div>
             )}
 

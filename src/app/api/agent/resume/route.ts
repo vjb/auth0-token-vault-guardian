@@ -1,11 +1,13 @@
 import { NextResponse } from "next/server";
 import { defiGuardianGraph } from "@/agent/graph";
 
-export async function POST() {
+export async function POST(req: Request) {
   try {
-    const config = { configurable: { thread_id: "hackathon-session-1" } };
+    const body = await req.json();
+    const threadId = body.threadId || "hackathon-session-1";
+    const config = { configurable: { thread_id: threadId } };
     
-    console.log("⚡ [API] Resuming LangGraph Thread for Cryptographic SignIntent...");
+    console.log(`⚡ [API] Resuming LangGraph Thread [${threadId}] for Cryptographic SignIntent...`);
 
     // Submitting a null invocation unblocks the saved execution state perfectly.
     const result = await defiGuardianGraph.invoke(null, config);

@@ -86,8 +86,13 @@ const workflow = new StateGraph(GraphState)
   .addEdge("RequestAuth0Consent", "SignIntent")
   .addEdge("SignIntent", "__end__");
 
-// Initialize memory specifically to hold the paused thread state across client reloads
-const memory = new MemorySaver();
+// Initialize memory specifically to hold the paused thread state across client reloads.
+// We bind it to globalThis so Next.js Hot Module Replacement (HMR) doesn't wipe the execution thread!
+const globalAny = globalThis as any;
+if (!globalAny.__langgraphMemory) {
+  globalAny.__langgraphMemory = new MemorySaver();
+}
+const memory = globalAny.__langgraphMemory;
 
 // 7. Compile the Graph
 // HUMAN IN THE LOOP: Breakpoint before signing the intent!
