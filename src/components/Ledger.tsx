@@ -1,0 +1,53 @@
+import React from "react";
+import { Terminal, Copy } from "lucide-react";
+
+interface LedgerProps {
+  signature: string | null;
+  timestamp: string;
+}
+
+export function Ledger({ signature, timestamp }: LedgerProps) {
+  return (
+    <div className="bg-black border border-emerald-900 rounded-xl p-6 shadow-2xl flex flex-col gap-4 font-mono">
+      <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div className="flex items-center gap-3">
+          <Terminal className="text-emerald-500" size={20} />
+          <h2 className="text-lg font-bold text-emerald-500">Execution Ledger</h2>
+        </div>
+        <span className="text-xs text-slate-500 text-right">Base Sepolia L2</span>
+      </div>
+
+      {!signature ? (
+        <div className="text-slate-600 text-sm py-10 text-center animate-pulse">
+          _awaiting_cryptographic_intent_
+        </div>
+      ) : (
+        <div className="flex flex-col gap-4 animate-in fade-in duration-500">
+          <div className="flex flex-col gap-1">
+            <span className="text-xs text-slate-500">TIMESTAMP</span>
+            <span className="text-sm text-slate-300">{timestamp}</span>
+          </div>
+          
+          <div className="flex flex-col gap-1">
+            <span className="text-xs text-slate-500">VERIFIED EIP-712 SIGNATURE</span>
+            <div className="bg-slate-900 p-3 rounded-lg text-emerald-400 text-xs break-all border border-slate-800 relative group cursor-pointer hover:border-emerald-700 transition">
+              {signature}
+              <Copy className="absolute right-2 top-2 text-slate-500 group-hover:text-emerald-500 opacity-0 group-hover:opacity-100 transition" size={14} />
+            </div>
+          </div>
+          
+          <div className="flex flex-col gap-1">
+            <span className="text-xs text-slate-500">SIMULATED TX HASH</span>
+            <span className="text-sm text-blue-400 hover:underline cursor-pointer">
+              0x1fb5...d92a (View on Basescan)
+            </span>
+          </div>
+
+          <div className="mt-2 text-xs text-emerald-600 border-t border-slate-800 pt-3">
+             [SUCCESS] Intent validated and broadcasted to 0x...dEaD
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
