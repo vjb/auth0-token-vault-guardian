@@ -43,7 +43,7 @@ Here is how we set up the Auth0 Dashboard to handle the authorization:
 2. **M2M Application**: Created a Machine-to-Machine application in Auth0 to represent our Next.js agent.
 3. **CIBA Grant Type**: Enabled the Backchannel Authentication (`urn:openid:params:grant-type:ciba`) grant in the application's advanced settings so it can send out-of-band push requests.
 4. **API Authorization**: Authorized the application to connect to the custom API and assigned it the `execute_transfer` scope.
-5. **Guardian Push MFA**: Enabled Auth0 Guardian Push Notifications in the security settings to ensure the CIBA request successfully pings the user's physical device (e.g., a mobile phone or YubiKey).
+5. **Guardian Push MFA**: Enabled Auth0 Guardian Push Notifications in the security settings to ensure the CIBA request successfully pings the user's physical device (e.g., a mobile phone or smartwatch).
 
 ## Tested Output Validation
 
