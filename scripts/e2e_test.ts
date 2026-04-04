@@ -24,7 +24,8 @@ async function runInteractiveTest() {
 
     if (!isPaused || result.authStatus === "DENIED") {
       console.log("\n❌ [FAIL] Auth0 Token Vault physically blocked the payload.");
-      console.log(`❌ Reason: The backend returned Auth Status [${result.authStatus}]`);
+      console.log(`❌ State: [${result.authStatus}]`);
+      console.log(`❌ Native API Error: ${result.error || "Unknown Auth0 Validation Fault"}`);
       console.log("Make sure you approved the mobile push, or that your CIBA Tenant is fully configured.");
       process.exit(1);
     }

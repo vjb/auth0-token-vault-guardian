@@ -76,7 +76,7 @@ To stop this organically, we decoupled the execution privileges of our AI using 
 
 Instead of trusting the LLM indiscriminately, our Node process uses LangGraph.js to monitor the executing intent. When an anomaly triggers an actionable state (like transferring high-value liquidity), the agent hits an explicit `.compile({ interruptBefore: ["SignIntent"] })` state transition block. The agent's thread literally pauses in memory, initiating a payload through the `@auth0/ai-langchain` SDK.
 
-The human operator receives a CIBA push notification directly to their device with a strict parameter: *"Do you authorize the execution of execute_transfer?"*. Only if explicitly approved does the LangGraph node receive the ephemeral, vaulted token necessary to invoke the `viem` cryptography and sign the target EIP-712 payload.
+The human operator receives a CIBA push notification directly to their device with a strict parameter: *"DeFi Vault: Authorize high-value agent transaction."*. Only if explicitly approved does the LangGraph node receive the ephemeral, vaulted token necessary to invoke the `viem` cryptography and sign the target EIP-712 payload.
 
 This architecture fundamentally proves that using the Auth0 Token Vault, autonomous algorithms can be legally and mathematically constrained to "Authorized to Act".
 

@@ -24,7 +24,7 @@ const MonitorRisk = async (state: typeof GraphState.State) => {
 };
 
 // 3. Node: Auth0 CIBA Wrap (Token Vault)
-const RequestAuth0Consent = async (state: typeof GraphState.State) => {
+const RequestAuth0Consent = async (state: typeof GraphState.State, config?: any) => {
   console.log("🔒 [AGENT] Initiating Auth0 Token Vault execution wrap...");
   
   // FIXED BUG: Must be a strict LangChain tool to prevent .bind errors in the SDK!
@@ -40,10 +40,12 @@ const RequestAuth0Consent = async (state: typeof GraphState.State) => {
   
   try {
     // This will securely request mobile push authorization from the tenant owner.
+    // IMPERATIVE: We MUST pass "config" downward so the @auth0/ai-langchain 
+    // SDK attaches to the LangGraph physical thread execution loop.
     await vaultProtectedHook.invoke({ 
       action: state.actionRequired, 
       threshold: state.portfolioDrop 
-    });
+    }, config);
     return { authStatus: "APPROVED" };
   } catch (error: any) {
     return { authStatus: "DENIED", error: error.message };
@@ -57,6 +59,8 @@ const SignIntent = async (state: typeof GraphState.State) => {
   }
   
   console.log("🚀 [AGENT] Connecting to Web3 to sign Authorized Intent...");
+  
+  console.log(`🔑 [DEBUG] Vault Token Acquired: ${String(state.authStatus)}...`);
   
   const web3 = new Web3CryptographyManager();
   const timestamp = BigInt(Math.floor(Date.now() / 1000));

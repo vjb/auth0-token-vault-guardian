@@ -19,7 +19,7 @@ export const requestAsynchronousVaultConsent = auth0AI.withAsyncAuthorization({
 
   // The explicit message sent to Auth0 Guardian for the Human-in-the-loop review
   bindingMessage: async () =>
-    `DeFi Guardian Vault: Do you explicitly authorize this high-value protocol operation?`,
+    `DeFi Vault: Authorize high-value agent transaction.`,
   
   // The dynamic, tightly scoped permissions requested by the Agent
   scopes: ["openid", "execute_transfer", "read:portfolio"],
@@ -36,9 +36,9 @@ export const requestAsynchronousVaultConsent = auth0AI.withAsyncAuthorization({
   onUnauthorized: async (e: Error) => {
     if (e instanceof AccessDeniedInterrupt) {
       console.error("❌ [AUTH0] The user manually revoked the request.");
-      return "User Denied Authorization";
+      throw new Error("User Denied Authorization");
     }
-    return e.message;
+    throw e;
   },
 });
 
