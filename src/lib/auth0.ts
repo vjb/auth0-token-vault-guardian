@@ -47,5 +47,5 @@ export const requestAsynchronousVaultConsent = auth0AI.withAsyncAuthorization({
  */
 export function getActiveVaultToken() {
   const credentials = getAsyncAuthorizationCredentials();
-  return credentials?.accessToken?.value || null;
+  return credentials?.accessToken || null;
 }
