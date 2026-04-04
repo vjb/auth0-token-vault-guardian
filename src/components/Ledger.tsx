@@ -38,14 +38,14 @@ export function Ledger({ signature, timestamp }: LedgerProps) {
           </div>
           
           <div className="flex flex-col gap-1">
-            <span className="text-xs text-slate-500">SIMULATED TX HASH</span>
-            <span className="text-sm text-blue-400 hover:underline cursor-pointer">
-              0x1fb5...d92a (View on Basescan)
+            <span className="text-xs text-slate-500">DERIVED INTENT HASH</span>
+            <span className="text-sm text-blue-400 hover:text-blue-300 font-mono transition cursor-pointer">
+              {signature.substring(0, 12)}...{signature.substring(signature.length - 6)}
             </span>
           </div>
 
-          <div className="mt-2 text-xs text-emerald-600 border-t border-slate-800 pt-3">
-             [SUCCESS] Intent validated and broadcasted to 0x...dEaD
+          <div className="mt-2 text-xs text-emerald-600 border-t border-slate-800 pt-3 font-semibold tracking-wide">
+             [SUCCESS] Cryptographic payload signed and verified.
           </div>
         </div>
       )}
