@@ -79,12 +79,12 @@ To prove that the LangGraph workflow mathematically blocks the agent from forgin
 
 ## Hackathon Judging Criteria Alignment
 
-1. **Security Model**: The agent does not use static API keys. All execution sequences run through the Auth0 Asynchronous Authorization (CIBA) flow.
-2. **User Control**: The dashboard utilizes a dedicated `TokenVaultConsent` panel that reads the paused LangGraph state. 
-3. **Technical Execution**: Implemented natively in TypeScript using the official `@auth0/ai-langchain` and completely stripped of UI mocks.
-4. **Design**: "Bloomberg Terminal" corporate-aesthetic utilizing Tailwind CSS and lucide-react.
-5. **Potential Impact**: Brings mathematically verifiable state-machine security to headless agent ecosystems on EVM platforms.
-6. **Insight Value**: Proves that LangGraph can natively halt execution and wait for an external Auth0 identity verification efficiently.
+1. **Security Model**: The agent does not use static API keys. All execution runs through the Auth0 Asynchronous Authorization (CIBA) flow.
+2. **User Control**: The dashboard features a dedicated consent panel so users can visually monitor exactly when the agent is paused and requesting permission.
+3. **Technical Execution**: Built in TypeScript using the official `@auth0/ai-langchain` SDK.
+4. **Design**: A clean, institutional-style dashboard built with Tailwind CSS and lucide-react.
+5. **Potential Impact**: Demonstrates how to prevent autonomous agents from making unauthorized high-value transactions on-chain.
+6. **Insight Value**: Shows a practical pattern for using LangGraph to physically halt an execution thread while waiting for an external Auth0 identity ping.
 
 ## Bonus Blog Post: Securing Agents with Token Vault
 
