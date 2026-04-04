@@ -36,7 +36,7 @@ export default function Home() {
       } else {
         // Fallback or explicit Auth0 CIBA error/rejection
         setAuthStatus("DENIED");
-        console.error("Auth0 Token Vault hook returned DENIED or timed out.");
+        console.warn("Auth0 Token Vault hook returned DENIED or timed out.");
       }
     } catch (e: any) {
       console.error(e);
