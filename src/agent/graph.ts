@@ -1,23 +1,24 @@
 import { StateGraph, Annotation, MemorySaver } from "@langchain/langgraph/web";
 import { requestAsynchronousVaultConsent } from "../lib/auth0";
 import { Web3CryptographyManager } from "../lib/web3";
+import { tool } from "@langchain/core/tools";
 
 // 1. Define the internal Agent State
 export const GraphState = Annotation.Root({
-  portfolioDrop: Annotation<number>(),
+  portfolioDrop: Annotation<number>(), // Keep for backward compatibility, but representing 'amount' in UI
   actionRequired: Annotation<string>(),
   authStatus: Annotation<string>(),
   finalSignature: Annotation<string | null>(),
   error: Annotation<string | null>(),
 });
 
-// 2. Node: Monitor the PRISM Risk Oracle
+// 2. Node: Analyze Intent
 const MonitorRisk = async (state: typeof GraphState.State) => {
-  console.log("📊 [AGENT] Scanning portfolio risk...");
+  console.log("📊 [AGENT] Analyzing transaction intent...");
   
-  // If the drop is worse than 15%, we mandate a liquidation circuit breaker
+  // If the transfer amount is large, mandate Auth0 Vault verification
   if (state.portfolioDrop >= 15) {
-    return { actionRequired: "LIQUIDATE_ALL", authStatus: "PENDING" };
+    return { actionRequired: "EXECUTE_HIGH_VALUE_TRANSFER", authStatus: "PENDING" };
   }
   return { actionRequired: "HOLD", authStatus: "SAFE" };
 };
@@ -26,13 +27,20 @@ const MonitorRisk = async (state: typeof GraphState.State) => {
 const RequestAuth0Consent = async (state: typeof GraphState.State) => {
   console.log("🔒 [AGENT] Initiating Auth0 Token Vault execution wrap...");
   
-  // Create a minimal executable hook that uses the official CIBA intercept wrapper
-  const executeLiquidationHook = async () => true; 
-  const vaultProtectedHook = requestAsynchronousVaultConsent(executeLiquidationHook as any);
+  // FIXED BUG: Must be a strict LangChain tool to prevent .bind errors in the SDK!
+  const executeTransferTool = tool(
+    async () => "Transaction mathematically valid.",
+    { 
+      name: "execute_transfer", 
+      description: "Executes a heavily restricted web3 token transfer" 
+    }
+  );
+  
+  const vaultProtectedHook = requestAsynchronousVaultConsent(executeTransferTool);
   
   try {
-    // This will pause the thread until the mobile push is clicked
-    await vaultProtectedHook({ 
+    // This will securely request mobile push authorization from the tenant owner.
+    await vaultProtectedHook.invoke({ 
       action: state.actionRequired, 
       threshold: state.portfolioDrop 
     });
@@ -61,7 +69,7 @@ const SignIntent = async (state: typeof GraphState.State) => {
 
 // 5. Edges Routing
 const shouldRequestConsentRoute = (state: typeof GraphState.State) => {
-  if (state.actionRequired === "LIQUIDATE_ALL") {
+  if (state.actionRequired === "EXECUTE_HIGH_VALUE_TRANSFER") {
     return "RequestAuth0Consent"; // Enter the Human-in-the-loop stage
   }
   return "__end__";
