@@ -18,8 +18,9 @@ export function Ledger({ signature, timestamp }: LedgerProps) {
       </div>
 
       {!signature ? (
-        <div className="text-slate-600 text-sm py-10 text-center animate-pulse">
-          _awaiting_cryptographic_intent_
+        <div className="text-slate-400 font-medium text-base py-10 flex flex-col items-center gap-2 animate-pulse">
+          <span>_awaiting_mfa_push_approval_</span>
+          <span className="text-xs text-slate-500 font-normal">Physical Hardware Vault remains cryptographically locked</span>
         </div>
       ) : (
         <div className="flex flex-col gap-4 animate-in fade-in duration-500">
