@@ -10,6 +10,7 @@ export default function Home() {
   const [authStatus, setAuthStatus] = useState<"SAFE" | "PENDING" | "APPROVED" | "DENIED">("SAFE");
   const [signature, setSignature] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isSigning, setIsSigning] = useState(false);
 
   // Triggers the true LangGraph executing on the server
   const handleMarketCrash = async () => {
@@ -31,7 +32,9 @@ export default function Home() {
       if (data.isPaused) {
         setAuthStatus("APPROVED");
       } else {
+        // Fallback for Hackathon Testing if CIBA environment lacks a native push device or throws 500
         setAuthStatus("DENIED");
+        console.error("Auth0 Token Vault hook failed. Native setup missing.");
       }
     } catch (e) {
       console.error(e);
@@ -42,9 +45,9 @@ export default function Home() {
   };
 
   // Resumes the suspended LangGraph thread
-  const handleGrantPermission = async () => {
+  const handleSignAndBroadcast = async () => {
     try {
-      setIsLoading(true);
+      setIsSigning(true);
       // Calls the execution endpoint which explicitly passes control back to 
       // the node engine to formally calculate the Viem Web3 signature.
       const res = await fetch("/api/agent/resume", {
@@ -58,13 +61,15 @@ export default function Home() {
     } catch (e) {
       console.error("Signature bridging failed:", e);
     } finally {
-      setIsLoading(false);
+      setIsSigning(false);
     }
   };
 
   const handleRevokeAccess = () => {
     setAuthStatus("DENIED");
     setSignature(null);
+    setDropSimulated(false);
+    // Realistically this would hit an abort webhook `/api/agent/abort` to clear the LangGraph thread state
   };
 
   return (
@@ -115,6 +120,22 @@ export default function Home() {
               </button>
             </section>
 
+            {authStatus === "APPROVED" && (
+              <div className="bg-blue-900/20 border border-blue-800 p-6 rounded-xl flex items-center justify-between animate-in fade-in zoom-in duration-500">
+                <div>
+                  <h4 className="text-blue-400 font-bold mb-1">Auth0 Vault Unlocked</h4>
+                  <p className="text-sm text-blue-200/70">The LangGraph thread has successfully acquired the requested execution scopes.</p>
+                </div>
+                <button 
+                  onClick={handleSignAndBroadcast}
+                  disabled={isSigning}
+                  className="bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-6 rounded-lg transition"
+                >
+                  {isSigning ? "Signing Payload..." : "Sign & Broadcast Intent"}
+                </button>
+              </div>
+            )}
+
             <Ledger signature={signature} timestamp={new Date().toISOString()} />
           </div>
 
@@ -122,7 +143,6 @@ export default function Home() {
           <div className="md:col-span-4 flex flex-col gap-6">
             <ConsentPanel 
               status={authStatus} 
-              onApprove={handleGrantPermission} 
               onRevoke={handleRevokeAccess} 
             />
           </div>
