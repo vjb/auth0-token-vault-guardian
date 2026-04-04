@@ -27,6 +27,16 @@ sequenceDiagram
     Web3-->>NextJS: Cryptographic Signature Return
 ```
 
+## Auth0 Tenant & API Configuration
+
+To securely replicate this execution architecture, the Auth0 Dashboard must be rigorously configured to enforce out-of-band hardware constraints:
+
+1. **API Mappings**: Created a custom API (`https://api.risk-router-demo.com`) and defined the explicit `execute_transfer` scope.
+2. **First-Party M2M Application**: Created a Machine-to-Machine Next.js application representing the headless agent.
+3. **CIBA Grant Type**: Physically enabled the Backchannel Authentication (`urn:openid:params:grant-type:ciba`) grant under the Application's Advanced Settings to permit Out-Of-Band (OOB) push requests.
+4. **API Authorization**: Explicitly authorized the Application to safely bind to the API, assigning the `execute_transfer` scope.
+5. **Guardian Push MFA**: Forced Auth0 Guardian Push Notifications to active inside the Tenant Security policy, ensuring the CIBA ping successfully connects to the human's hardware device.
+
 ## Tested Output Validation
 
 To prove that the LangGraph workflow mathematically blocks the agent from forging a Web3 payload without the CIBA Token Vault scope, you can run the unmocked E2E test script natively:
