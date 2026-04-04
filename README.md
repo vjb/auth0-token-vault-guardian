@@ -27,6 +27,14 @@ sequenceDiagram
     Web3-->>NextJS: Cryptographic Signature Return
 ```
 
+### Separation of Duties (The "Four-Eyes" Principle)
+This architecture natively implements institutional-grade multi-party computation. 
+We explicitly enforce **two** distinct Human-in-the-Loop constraints before the `viem` cryptography mathematically signs the final transaction:
+1. **The hardware Ping (Auth0 CIBA):** An executive/risk officer receives an out-of-band mobile push request demanding they unlock the execution vault.
+2. **The Terminal UI (LangGraph Pause):** Once the Vault unlocks, the LangGraph thread physically halts again (`interruptBefore: ["SignIntent"]`), requiring the active Terminal operator to actively press **"Sign & Broadcast Intent"**.
+
+This guarantees that a compromised terminal cannot bypass the executive phone, and a compromised phone cannot invisibly trigger a signature without terminal initiation.
+
 ## Auth0 Tenant & API Configuration
 
 To securely replicate this execution architecture, the Auth0 Dashboard must be rigorously configured to enforce out-of-band hardware constraints:
