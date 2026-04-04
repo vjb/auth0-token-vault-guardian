@@ -1,5 +1,7 @@
 # DeFi Guardian Agent (Auth0 Token Vault Integration)
 
+🚀 **Live Deployment:** [auth0-token-vault-guardian.vercel.app](https://auth0-token-vault-guardian.vercel.app/)
+
 An institutional-grade autonomous executing agent built on Next.js and **LangGraph.js**. This project features explicit Human-in-the-Loop architectural control secured tightly by the **Auth0 Token Vault**.
 
 ## Execution Architecture (LangGraph CIBA Flow)
