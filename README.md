@@ -27,7 +27,7 @@ sequenceDiagram
     Web3-->>NextJS: Cryptographic Signature Return
 ```
 
-### Separation of Duties (The "Four-Eyes" Principle)
+### Separation of Duties (Dual-Factor Authorization Pipeline)
 This architecture natively implements institutional-grade multi-party computation. 
 We explicitly enforce **two** distinct Human-in-the-Loop constraints before the `viem` cryptography mathematically signs the final transaction:
 1. **The hardware Ping (Auth0 CIBA):** An executive/risk officer receives an out-of-band mobile push request demanding they unlock the execution vault.

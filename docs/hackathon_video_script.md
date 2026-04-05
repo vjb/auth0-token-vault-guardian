@@ -22,5 +22,5 @@ Simultaneously, the Auth0 Token Vault routes a strict CIBA backchannel constrain
 
 **Voiceover:** 
 "With a simple physical tap, the Vault releases the ephemeral token into the LangGraph node. Our React frontend receives the webhook indicating the Vault is unblocked.
-But notice we don't instantly sign the transaction! We explicitly engineered a **Four-Eyes Principle**. Our second software constraint requires the active terminal trader to physically press 'Sign & Broadcast' before the agent is permitted to connect to Viem via Base L2 and generate the EIP-712 cryptographic signature exactly bounded by Auth0! 
+But notice we don't instantly sign the transaction! We explicitly engineered a **Dual-Factor Authorization Pipeline**. Our second software constraint requires the active terminal trader to physically press 'Sign & Broadcast' before the agent is permitted to connect to Viem via Base L2 and generate the EIP-712 cryptographic signature exactly bounded by Auth0! 
 And crucially, we maintain ultimate User Control. With this 'Revoke Agent Access' command, the vaulted connection can be explicitly killed, revoking the autonomous agent's privileges entirely. Thank you for viewing."
