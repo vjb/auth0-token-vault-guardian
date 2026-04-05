@@ -46,33 +46,18 @@ export class Web3CryptographyManager {
     });
 
     console.log(`📝 [WEB3] Generating EIP-712 Signature for [${action}] intent...`);
-    if (!process.env.PRIVATE_KEY) {
-      console.warn("⚠️ [MOCKED: Hardware Private Key] Using fallback demo key for signature generation.");
-    }
     
-    // viem's native implementation of eth_signTypedData_v4, wrapped with resilience
-    const pRetry = (await import('p-retry')).default;
-    
-    const signature = await pRetry(
-      async () => {
-        return await walletClient.signTypedData({
-          domain,
-          types,
-          primaryType: 'TradeIntent',
-          message: {
-            action,
-            threshold,
-            timestamp,
-          },
-        });
+    // viem's native implementation of eth_signTypedData_v4
+    const signature = await walletClient.signTypedData({
+      domain,
+      types,
+      primaryType: 'TradeIntent',
+      message: {
+        action,
+        threshold,
+        timestamp,
       },
-      {
-        retries: 3,
-        onFailedAttempt: error => {
-          console.warn(`[WEB3] Signature attempt ${error.attemptNumber} failed. There are ${error.retriesLeft} retries left.`);
-        }
-      }
-    );
+    });
 
     return signature;
   }
