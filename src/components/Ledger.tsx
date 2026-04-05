@@ -4,9 +4,10 @@ import { Terminal, Copy } from "lucide-react";
 interface LedgerProps {
   signature: string | null;
   timestamp: string;
+  authStatus?: string;
 }
 
-export function Ledger({ signature, timestamp }: LedgerProps) {
+export function Ledger({ signature, timestamp, authStatus }: LedgerProps) {
   return (
     <div className="bg-black border border-emerald-900 rounded-xl p-6 shadow-2xl flex flex-col gap-4 font-mono">
       <div className="flex items-center justify-between border-b border-slate-800 pb-3">
@@ -18,10 +19,17 @@ export function Ledger({ signature, timestamp }: LedgerProps) {
       </div>
 
       {!signature ? (
-        <div className="text-slate-400 font-medium text-base py-10 flex flex-col items-center gap-2 animate-pulse">
-          <span>_awaiting_mfa_push_approval_</span>
-          <span className="text-xs text-slate-500 font-normal">Physical Hardware Vault remains cryptographically locked</span>
-        </div>
+        authStatus === "APPROVED" ? (
+          <div className="text-blue-400 font-medium text-base py-10 flex flex-col items-center gap-2 animate-pulse">
+            <span>_vault_unlocked_awaiting_terminal_consent_</span>
+            <span className="text-xs text-blue-500/70 font-normal">Physical Hardware Vault unlocked. Pending Terminal Operator authorization.</span>
+          </div>
+        ) : (
+          <div className="text-slate-400 font-medium text-base py-10 flex flex-col items-center gap-2 animate-pulse">
+            <span>_awaiting_mfa_push_approval_</span>
+            <span className="text-xs text-slate-500 font-normal">Physical Hardware Vault remains cryptographically locked</span>
+          </div>
+        )
       ) : (
         <div className="flex flex-col gap-4 animate-in fade-in duration-500">
           <div className="flex flex-col gap-1">

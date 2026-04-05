@@ -151,7 +151,7 @@ export default function Home() {
               </div>
             )}
 
-            <Ledger signature={signature} timestamp={new Date().toISOString()} />
+            <Ledger signature={signature} timestamp={new Date().toISOString()} authStatus={authStatus} />
           </div>
 
           {/* Right Column: User Control */}
