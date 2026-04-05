@@ -13,7 +13,7 @@ To solve this, we decoupled our execution privileges by binding LangGraph.js to 
 *(Screen: Click 'Initialize High-Value Rebalance' button. Point out the Consent Panel. Have your phone physically held up to your webcam so the judge sees the Auth0 Guardian Pop-up!)*
 
 **Voiceover:** 
-"Let's simulate a massive market crash. The agent realizes it must execute a high-value rebalance. The moment it decides to act, execution securely halts. 
+"Here, we're instructing the agent to execute a high-value treasury rebalance. The moment it decides to act, execution securely halts. 
 Look at our Consent Panel: it provides real-time lifecycle transparency. You can see the exact scopes the agent is demanding—`execute_transfer` and `read:portfolio`. 
 Simultaneously, the Auth0 Token Vault routes a strict CIBA backchannel constraint. As you can see on my phone, the Auth0 Guardian app physically prompts me to explicitly authorize the transaction from out of band."
 
