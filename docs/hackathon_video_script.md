@@ -18,7 +18,7 @@ Look at our Consent Panel: it provides real-time lifecycle transparency. You can
 Simultaneously, the Auth0 Token Vault routes a strict CIBA backchannel constraint. As you can see on my phone, the Auth0 Guardian app physically prompts me to explicitly authorize the transaction from out of band."
 
 ### Scene 3: Cryptographic Execution & Revocation (1:30 - 2:30)
-*(Screen: Tap 'Approve' on your phone. Then instantly switch back to the screen as the Next.js UI unblocks the "Sign & Broadcast Intent" button. Click it. The Ledger populates with the green signature. Then highlight the Revoke button.)*
+*(Screen: Tap 'Approve' on your phone. Then instantly switch back to the screen as the Next.js UI unblocks the "Sign & Broadcast Intent" button. Point out that the Execution Ledger now securely reflects "Pending Terminal Operator authorization". Click the Sign button. The Ledger populates with the green signature. Then highlight the Revoke button.)*
 
 **Voiceover:** 
 "With a simple physical tap, the Vault releases the ephemeral token into the LangGraph node. Our React frontend receives the webhook indicating the Vault is unblocked.
