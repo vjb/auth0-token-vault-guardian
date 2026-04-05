@@ -15,7 +15,12 @@ export const auth0AI = new Auth0AI();
 export const requestAsynchronousVaultConsent = auth0AI.withAsyncAuthorization({
   // In a full production app, this is retrieved from dynamic NextAuth/Auth0 session state.
   // For the hackathon, we statically bind to our demo test user ID.
-  userID: process.env.AUTH0_DEMO_USER_ID || "auth0|65f1eb21b83d8e5f2...", 
+  userID: (() => {
+    if (!process.env.AUTH0_DEMO_USER_ID) {
+      console.warn("⚠️ [MOCKED: Auth0 User ID] Using static test user ID for vault authorization hook.");
+    }
+    return process.env.AUTH0_DEMO_USER_ID || "auth0|65f1eb21b83d8e5f2...";
+  })(),
 
   // The explicit message sent to Auth0 Guardian for the Human-in-the-loop review
   bindingMessage: async () =>
