@@ -3,7 +3,7 @@
 **Estimated Time:** ~2:45
 
 ### Scene 1: Introduction & Architecture (0:00 - 0:45)
-*(Screen: The "Bloomberg Terminal" style Next.js UI on `localhost:3000`. Show the codebase IDE focused on `src/agent/graph.ts`)*
+*(Screen: The "Bloomberg Terminal" style Next.js UI on `localhost:3000` starts in its default monitoring state)*
 
 **Voiceover:** 
 "Hello, I'm presenting TokenVault Guardian—an Institutional Risk Engine. A major problem in autonomous trading is reliance on highly vulnerable static `.env` API keys. If the LLM goes rogue, it drains the wallet. 
